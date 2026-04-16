@@ -7,6 +7,7 @@ import AlertProvider from './components/AlertProvider'
 import Home from './screens/Home/Home'
 import Login from './screens/Auth/Login'
 import Dashboard from './screens/Dashboard/Dashboard'
+import Reception from './screens/Reception/Reception'
 import Profile from './screens/Profile/Profile'
 import Sidebar from './components/Sidebar'
 import useAuth from './hooks/useAuth'
@@ -32,6 +33,7 @@ export default function App(){
                 <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" replace />} />
+                <Route path="/reception" element={user ? <Reception /> : <Navigate to="/login" replace />} />
                 <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" replace />} />
                 <Route path="/home" element={<Home />} />
               </Routes>
