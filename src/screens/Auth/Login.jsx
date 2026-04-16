@@ -26,7 +26,9 @@ export default function Login(){
     try{
       await authService.login({ email: data.email, password: data.password })
       showSuccessAlert('Login successful')
+      // reload so top-level `useAuth` picks up the stored user and App re-renders
       navigate('/dashboard')
+      window.location.reload()
     }catch(err){
       showErrorAlert('Wrong Credentials')
     } finally {

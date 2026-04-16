@@ -110,7 +110,7 @@ export default function Dashboard() {
   return (
     <Box sx={{
       display: 'flex', flexDirection: 'column',
-      height: '100%', minHeight: 0,
+      height: '100%', minHeight: 0, width: '100%',
       p: 3, bgcolor: '#f8fafc', boxSizing: 'border-box', gap: 2.5,
     }}>
 
@@ -140,7 +140,7 @@ export default function Dashboard() {
       </Box>
 
       {/* Stat Cards */}
-      <Grid container spacing={2} sx={{ flexShrink: 0 }}>
+      <Grid container spacing={2} sx={{ flexShrink: 0, width: '100%', margin: 0 }}>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard icon={<PeopleAltOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
             label="Total Patients" value="1,284" badge="+12%" badgeColor="green" progress={70} progressColor="#1d4ed8" />
@@ -160,7 +160,7 @@ export default function Dashboard() {
       </Grid>
 
       {/* Main content row — fills remaining height */}
-      <Grid container spacing={2} sx={{ flex: 1, minHeight: 0 }}>
+      <Grid container spacing={2} sx={{ flex: 1, minHeight: 0, width: '100%', margin: 0 }}>
 
         {/* Workload Analysis */}
         <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column' }}>

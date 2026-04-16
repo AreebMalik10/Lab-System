@@ -26,8 +26,8 @@ export default function App(){
           {user && !onLoginPage && <Sidebar />}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             {user && !onLoginPage && <Header />}
-            <main style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <main style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, width: '100%' }}>
               <Routes>
                 <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
