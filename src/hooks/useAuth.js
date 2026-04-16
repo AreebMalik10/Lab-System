@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function useAuth(){
-  const [user,setUser]=useState(null)
+  // initialize synchronously from localStorage so routes don't flash/redirect
+  const [user, setUser] = useState(() => {
+    try {
+      const raw = localStorage.getItem('user')
+      return raw ? JSON.parse(raw) : null
+    } catch (err) {
+      return null
+    }
+  })
 
-  useEffect(()=>{
-    // placeholder: load user from localStorage or API
-    const raw = localStorage.getItem('user')
-    if(raw) setUser(JSON.parse(raw))
-  },[])
-
-  return {user, setUser}
+  return { user, setUser }
 }
 

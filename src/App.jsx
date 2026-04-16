@@ -22,18 +22,22 @@ export default function App(){
 
     return (
       <>
-        {user && !onLoginPage && <Header />}
-        <div style={{display:'flex'}}>
+        <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
           {user && !onLoginPage && <Sidebar />}
-          <main style={{flex:1}}>
-            <Routes>
-              <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" replace />} />
-              <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" replace />} />
-              <Route path="/home" element={<Home />} />
-            </Routes>
-          </main>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            {user && !onLoginPage && <Header />}
+            <main style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+              <Routes>
+                <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" replace />} />
+                <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" replace />} />
+                <Route path="/home" element={<Home />} />
+              </Routes>
+              </div>
+            </main>
+          </div>
         </div>
       </>
     )

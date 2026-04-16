@@ -10,6 +10,7 @@ import Avatar from '@mui/material/Avatar'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useForm } from 'react-hook-form'
 import CustomValidationTextInput from '../../components/CustomValidationTextInput'
+import { showSuccessAlert, showErrorAlert } from '../../utils/alerts'
 
 export default function Login(){
   const { control, handleSubmit } = useForm({
@@ -24,9 +25,10 @@ export default function Login(){
     setLoading(true)
     try{
       await authService.login({ email: data.email, password: data.password })
+      showSuccessAlert('Login successful')
       navigate('/dashboard')
     }catch(err){
-      alert('Login failed: check credentials')
+      showErrorAlert('Wrong Credentials')
     } finally {
       setLoading(false)
     }
