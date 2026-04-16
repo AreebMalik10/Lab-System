@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -110,62 +109,82 @@ export default function Dashboard() {
   return (
     <Box sx={{
       display: 'flex', flexDirection: 'column',
-      height: '100%', minHeight: 0, width: '100%',
-      p: 3, bgcolor: '#f8fafc', boxSizing: 'border-box', gap: 2.5,
+      gap: { xs: 2, md: 3 },
+      ml: { xs: 0, md: 2 },
+      mr: { xs: 0, md: 2 },
+      p: 3,
+      bgcolor: '#f8fafc',
+      boxSizing: 'border-box',
     }}>
 
       {/* Top bar */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, flexShrink: 0 }}>
-        <Box>
-          <Typography sx={{ fontSize: 24, fontWeight: 800, color: '#0f172a' }}>System Overview</Typography>
-          <Typography sx={{ fontSize: 12, color: '#64748b', mt: 0.5 }}>{now()}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
-          <Button
-            startIcon={<PersonAddOutlinedIcon fontSize="small" />}
-            variant="outlined" size="small"
-            sx={{ borderColor: '#cbd5e1', color: '#334155', fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
-          >Add Patient</Button>
-          <Button
-            startIcon={<AssessmentOutlinedIcon fontSize="small" />}
-            variant="outlined" size="small"
-            sx={{ borderColor: '#cbd5e1', color: '#334155', fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
-          >View Reports</Button>
-          <Button
-            endIcon={<ArrowForwardIcon fontSize="small" />}
-            variant="contained" size="small"
-            sx={{ bgcolor: '#1d4ed8', '&:hover': { bgcolor: '#1e40af' }, fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600, boxShadow: 'none' }}
-          >Go to Reception</Button>
+      <Box sx={{ width: '100%', mb: 0.5 }}>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: { xs: 'flex-start', sm: 'center' },
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: { xs: 1, sm: 0 },
+        }}>
+          <Box>
+            <Typography sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' }, fontWeight: 800, color: '#0f172a' }}>
+              System Overview
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: '#64748b', mt: 0.5 }}>{now()}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mt: { xs: 1, sm: 0 } }}>
+            <Button
+              startIcon={<PersonAddOutlinedIcon fontSize="small" />}
+              variant="outlined" size="small"
+              sx={{ borderColor: '#cbd5e1', color: '#334155', fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
+            >Add Patient</Button>
+            <Button
+              startIcon={<AssessmentOutlinedIcon fontSize="small" />}
+              variant="outlined" size="small"
+              sx={{ borderColor: '#cbd5e1', color: '#334155', fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600 }}
+            >View Reports</Button>
+            <Button
+              endIcon={<ArrowForwardIcon fontSize="small" />}
+              variant="contained" size="small"
+              sx={{ bgcolor: '#1d4ed8', '&:hover': { bgcolor: '#1e40af' }, fontSize: 12, borderRadius: 1.5, textTransform: 'none', fontWeight: 600, boxShadow: 'none' }}
+            >Go to Reception</Button>
+          </Box>
         </Box>
       </Box>
 
-      {/* Stat Cards */}
-      <Grid container spacing={2} sx={{ flexShrink: 0, width: '100%', margin: 0 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard icon={<PeopleAltOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
-            label="Total Patients" value="1,284" badge="+12%" badgeColor="green" progress={70} progressColor="#1d4ed8" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard icon={<MonitorOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
-            label="Tests Performed" value="5,492" badge="+8%" badgeColor="green" progress={55} progressColor="#64748b" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard icon={<AssignmentLateOutlinedIcon sx={{ fontSize: 20, color: '#ea580c' }} />}
-            label="Pending Tests" value="42" badge="Urgent" badgeColor="orange" progress={30} progressColor="#ea580c" />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard icon={<AccountBalanceWalletOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
-            label="Today's Earnings" value="$4,120" badge="Daily Goal" badgeColor="blue" progress={82} progressColor="#1d4ed8" />
-        </Grid>
-      </Grid>
+      {/* Stat Cards — CSS grid, auto-fit like reference */}
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: { xs: 2, md: 3 },
+        width: '100%',
+      }}>
+        <StatCard icon={<PeopleAltOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
+          label="Total Patients" value="1,284" badge="+12%" badgeColor="green" progress={70} progressColor="#1d4ed8" />
+        <StatCard icon={<MonitorOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
+          label="Tests Performed" value="5,492" badge="+8%" badgeColor="green" progress={55} progressColor="#64748b" />
+        <StatCard icon={<AssignmentLateOutlinedIcon sx={{ fontSize: 20, color: '#ea580c' }} />}
+          label="Pending Tests" value="42" badge="Urgent" badgeColor="orange" progress={30} progressColor="#ea580c" />
+        <StatCard icon={<AccountBalanceWalletOutlinedIcon sx={{ fontSize: 20, color: '#1d4ed8' }} />}
+          label="Today's Earnings" value="$4,120" badge="Daily Goal" badgeColor="blue" progress={82} progressColor="#1d4ed8" />
+      </Box>
 
-      {/* Main content row — fills remaining height */}
-      <Grid container spacing={2} sx={{ flex: 1, minHeight: 0, width: '100%', margin: 0 }}>
+      {/* Main content row — flex row like reference */}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', lg: 'row' },
+        gap: { xs: 2, md: 3 },
+        width: '100%',
+      }}>
 
-        {/* Workload Analysis */}
-        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 2, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+        {/* Workload Analysis — 70% */}
+        <Box sx={{ flex: { xs: '1', lg: '7' }, minWidth: 0 }}>
+          <Paper elevation={0} sx={{
+            p: 3, border: '1px solid #e5e7eb', borderRadius: 3,
+            boxShadow: '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+            height: '100%', display: 'flex', flexDirection: 'column',
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Box>
                 <Typography sx={{ fontWeight: 700, fontSize: 16, color: '#0f172a' }}>Workload Analysis</Typography>
                 <Typography sx={{ fontSize: 12, color: '#94a3b8', mt: 0.25 }}>Monitoring laboratory test volume over time</Typography>
@@ -185,52 +204,51 @@ export default function Dashboard() {
               </Box>
             </Box>
 
-            {/* Chart fills remaining vertical space */}
-            <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <BarChart data={DAILY_DATA} />
-            </Box>
+            <BarChart data={DAILY_DATA} />
 
-            <Divider sx={{ mt: 2, mb: 2, flexShrink: 0 }} />
+            <Divider sx={{ mt: 2, mb: 2 }} />
 
             {/* Bottom stats */}
-            <Grid container spacing={2} sx={{ flexShrink: 0 }}>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <TrendingUpIcon sx={{ color: '#16a34a', fontSize: 20 }} />
-                  <Box>
-                    <Typography sx={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.6 }}>Average Efficiency</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.7 }}>
-                      <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#0f172a' }}>98.4%</Typography>
-                      <Typography sx={{ fontSize: 11, color: '#16a34a', fontWeight: 600 }}>+1.2% vs last week</Typography>
-                    </Box>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <TrendingUpIcon sx={{ color: '#16a34a', fontSize: 20 }} />
+                <Box>
+                  <Typography sx={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.6 }}>Average Efficiency</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.7 }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#0f172a' }}>98.4%</Typography>
+                    <Typography sx={{ fontSize: 11, color: '#16a34a', fontWeight: 600 }}>+1.2% vs last week</Typography>
                   </Box>
                 </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <AddBoxOutlinedIcon sx={{ color: '#1d4ed8', fontSize: 20 }} />
-                  <Box>
-                    <Typography sx={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.6 }}>Peak Hours</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.7 }}>
-                      <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#0f172a' }}>08:00 – 11:00</Typography>
-                      <Typography sx={{ fontSize: 11, color: '#64748b' }}>Standard morning rush</Typography>
-                    </Box>
+              </Box>
+              <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <AddBoxOutlinedIcon sx={{ color: '#1d4ed8', fontSize: 20 }} />
+                <Box>
+                  <Typography sx={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.6 }}>Peak Hours</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.7 }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: 18, color: '#0f172a' }}>08:00 – 11:00</Typography>
+                    <Typography sx={{ fontSize: 11, color: '#64748b' }}>Standard morning rush</Typography>
                   </Box>
                 </Box>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Paper>
-        </Grid>
+        </Box>
 
-        {/* Accounts Registry */}
-        <Grid item xs={12} md={4} sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Accounts Registry — 30% */}
+        <Box sx={{ flex: { xs: '1', lg: '3.4' }, minWidth: 0 }}>
+          <Paper elevation={0} sx={{
+            p: 3, border: '1px solid #e5e7eb', borderRadius: 3,
+            boxShadow: '0px 10px 60px 0px rgba(226, 236, 249, 0.5)',
+            height: '100%', display: 'flex', flexDirection: 'column',
+          }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
               <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <AccountBalanceWalletOutlinedIcon sx={{ fontSize: 18, color: '#1d4ed8' }} />
               </Box>
               <Typography sx={{ fontWeight: 700, fontSize: 15, color: '#0f172a' }}>Accounts Registry</Typography>
             </Box>
+
+            <Divider sx={{ mb: 2, borderColor: '#000' }} />
 
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               {[
@@ -261,9 +279,9 @@ export default function Dashboard() {
               }}
             >View Full Accounts</Button>
           </Paper>
-        </Grid>
+        </Box>
 
-      </Grid>
+      </Box>
     </Box>
   )
 }

@@ -49,7 +49,15 @@ export default function Reception(){
   }
 
   function saveRecord(){
-    const payload = { id: editingId || Date.now(), form: { ...form }, tests: Array.from(selected) }
+    const selectedIds = Array.from(selected)
+    const selectedTests = selectedIds.map(id => SAMPLE_TESTS.find(t => t.id === id)).filter(Boolean)
+    const total = selectedTests.reduce((s,t)=>{
+      const n = typeof t.charges === 'string' ? parseFloat(t.charges.replace(/[^0-9.-]+/g, '')) : Number(t.charges)
+      return s + (isNaN(n)?0:n)
+    }, 0)
+
+    const payload = { id: editingId || Date.now(), form: { ...form }, tests: selectedTests, total }
+
     if(editingId){
       setRecords(r => r.map(x => x.id === editingId ? payload : x))
       window.alert('Record updated')
@@ -70,7 +78,9 @@ export default function Reception(){
     const rec = records.find(r=>r.id===id)
     if(!rec) return
     setForm(rec.form)
-    setSelected(new Set(rec.tests))
+    // rec.tests may be array of test objects or array of ids — normalize to ids
+    const ids = Array.isArray(rec.tests) ? rec.tests.map(t => (t && typeof t === 'object' && 'id' in t) ? t.id : t) : []
+    setSelected(new Set(ids))
     setEditingId(rec.id)
   }
 
@@ -196,17 +206,39 @@ export default function Reception(){
             {records.length === 0 ? (
               <Typography sx={{ color: '#64748b' }}>No saved records yet.</Typography>
             ) : (
-              <List>
-                {records.map(r => (
-                  <ListItemButton key={r.id} onClick={()=>loadRecord(r.id)} secondaryAction={
-                    <IconButton edge="end" onClick={(e)=>{ e.stopPropagation(); loadRecord(r.id) }}>
-                      <EditIcon />
-                    </IconButton>
-                  }>
-                    <ListItemText primary={r.form.fullName || '(no name)'} secondary={`${r.tests.length} tests — ${new Date(r.id).toLocaleString()}`} />
-                  </ListItemButton>
-                ))}
-              </List>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Patient</TableCell>
+                    <TableCell>Tests</TableCell>
+                    <TableCell>Count</TableCell>
+                    <TableCell align="right">Total</TableCell>
+                    <TableCell align="right">Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {records.map(r => (
+                    <TableRow key={r.id} hover>
+                      <TableCell>{r.form.fullName || '(no name)'}<br/><Typography component="span" sx={{ fontSize:12, color:'#64748b' }}>{r.form.phone}</Typography></TableCell>
+                      <TableCell>
+                        {r.tests.length === 0 ? <Typography sx={{ color:'#64748b' }}>No tests</Typography> : (
+                          <Box>
+                            {r.tests.slice(0,2).map(t => (
+                              <Typography key={t.id} sx={{ fontSize:13 }}><strong style={{color:'#1d4ed8'}}>{t.dept}:</strong> {t.name}</Typography>
+                            ))}
+                            {r.tests.length > 2 && <Typography sx={{ fontSize:12, color:'#64748b' }}>+{r.tests.length-2} more</Typography>}
+                          </Box>
+                        )}
+                      </TableCell>
+                      <TableCell>{r.tests.length}</TableCell>
+                      <TableCell align="right">${(r.total ?? 0).toFixed(2)}</TableCell>
+                      <TableCell align="right">
+                        <IconButton size="small" onClick={()=>loadRecord(r.id)}><EditIcon /></IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             )}
           </Paper>
         </Box>
