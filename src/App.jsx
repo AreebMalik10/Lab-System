@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import Header from './components/Header'
 import AlertProvider from './components/AlertProvider'
-import Home from './screens/Home/Home'
-import Login from './screens/Auth/Login'
-import Dashboard from './screens/Dashboard/Dashboard'
-import Reception from './screens/Reception/Reception'
-import Profile from './screens/Profile/Profile'
+const Home = lazy(() => import('./screens/Home/Home'))
+const Login = lazy(() => import('./screens/Auth/Login'))
+const Dashboard = lazy(() => import('./screens/Dashboard/Dashboard'))
+const Reception = lazy(() => import('./screens/Reception/Reception'))
+const Profile = lazy(() => import('./screens/Profile/Profile'))
 import Sidebar from './components/Sidebar'
 import useAuth from './hooks/useAuth'
 import theme from './theme'
@@ -29,6 +29,7 @@ export default function App(){
             {user && !onLoginPage && <Header />}
             <main style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, width: '100%' }}>
+              <Suspense fallback={<div style={{padding:20}}>Loading...</div>}>
               <Routes>
                 <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
                 <Route path="/login" element={<Login />} />
@@ -37,6 +38,7 @@ export default function App(){
                 <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" replace />} />
                 <Route path="/home" element={<Home />} />
               </Routes>
+              </Suspense>
               </div>
             </main>
           </div>
